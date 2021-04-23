@@ -276,7 +276,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       return;
     }
 
-    if (_password.contains(RegExp(r'[A-Z]')) == false) {
+    else if (_password.contains(RegExp(r'[A-Z]')) == false) {
       Fluttertoast.showToast(
           msg: "Please contains at least one uppercase",
           toastLength: Toast.LENGTH_SHORT,
