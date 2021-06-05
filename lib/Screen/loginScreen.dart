@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:snackeverywhere/homePage.dart';
-import 'package:snackeverywhere/registrationScreen.dart';
+import 'package:snackeverywhere/Screen/homePage.dart';
+import 'package:snackeverywhere/Screen/registrationScreen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:getwidget/getwidget.dart';
+import 'package:snackeverywhere/Class/user.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
-  TextEditingController _recoveryEmailController = TextEditingController();
+  TextEditingController _recoveryEmailController = new TextEditingController();
   SharedPreferences preferences;
 
   @override
@@ -57,7 +58,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               Text("SIGN IN",
                                   style: TextStyle(
                                       fontSize: 30,
-                                      fontWeight: FontWeight.bold)),
+                                      fontWeight: FontWeight.bold,
+                                      color:
+                                          Theme.of(context).primaryColorLight)),
                               GestureDetector(
                                 onTap: () {
                                   Navigator.push(
@@ -68,6 +71,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                                 child: Text(
                                   "SIGN UP",
+                                  style: TextStyle(
+                                      color:
+                                          Theme.of(context).primaryColorLight),
                                 ),
                               )
                             ],
@@ -76,20 +82,41 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                           width: 350,
                           child: TextField(
+                              cursorColor: Colors.black,
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
                               controller: _emailController,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 labelText: "Email",
-                                icon: Icon(Icons.email_outlined),
+                                labelStyle: TextStyle(
+                                    color: Theme.of(context).primaryColorLight),
+                                icon: Icon(Icons.email_outlined,
+                                    color: Theme.of(context).primaryColorLight),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .primaryColorLight)),
                               )),
                         ),
                         Container(
                           width: 350,
                           child: TextField(
+                            cursorColor: Colors.black,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColorLight),
                             controller: _passwordController,
                             decoration: InputDecoration(
-                                labelText: "Password",
-                                icon: Icon(Icons.lock_outlined)),
+                              labelText: "Password",
+                              labelStyle: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
+                              icon: Icon(Icons.lock_outlined,
+                                  color: Theme.of(context).primaryColorLight),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color:
+                                          Theme.of(context).primaryColorLight)),
+                            ),
                             obscureText: true,
                           ),
                         ),
@@ -112,10 +139,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }),
                               ),
                               SizedBox(width: 10),
-                              Text("Remember me")
+                              Text(
+                                "Remember me",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColorLight),
+                              ),
                             ],
                           ),
                         ),
+                        
                         SizedBox(height: 48),
                         MaterialButton(
                             shape: RoundedRectangleBorder(
@@ -127,7 +159,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text("Sign In",
-                                        style: TextStyle(fontSize: 20)),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Theme.of(context)
+                                                .primaryColorLight)),
                                   ]),
                             ),
                             color: Colors.orange[800],
@@ -135,10 +170,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 15),
                         GestureDetector(
                             onTap: _forgetPassword,
-                            child: Text("Forgot password?")),
+                            child: Text(
+                              "Forgot password?",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
+                            )),
                         SizedBox(height: 48),
                         Text("Copyright Reserved by Tan Yi Qing @ 2021",
-                            style: TextStyle(fontSize: 8)),
+                            style: TextStyle(
+                                fontSize: 8,
+                                color: Theme.of(context).primaryColorLight)),
                         SizedBox(height: 2),
                       ],
                     ),
@@ -161,10 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
             "https://hubbuddies.com/270607/snackeverywhere/php/loginUser.php"),
         body: {"email": _email, "password": _password}).then((response) {
       print(response.body);
-      if (response.body == "Success") {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (content) => HomePage()));
-      } else
+      if (response.body == "Failed") {
         Fluttertoast.showToast(
             msg: "Login failed. Please try again",
             toastLength: Toast.LENGTH_SHORT,
@@ -173,7 +211,24 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: Colors.white,
             textColor: Colors.black,
             fontSize: 16.0);
-      return;
+        return;
+      } else {
+        List userdata = response.body.split("#");
+        User user = new User(
+          first_name: userdata[1],
+          last_name: userdata[2],
+          email: userdata[3],
+          date_register: userdata[4],
+          c_qty: userdata[5],
+        );
+
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (content) => HomePage(
+                      user: user,
+                    )));
+      }
     });
   }
 

@@ -59,8 +59,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             children: [
                               Text("SIGN UP",
                                   style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold)),
+                                    color: Theme.of(context).primaryColorLight,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                  )),
                             ],
                           ),
                         ),
@@ -69,8 +71,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           child: TextField(
                               controller: _firstNameController,
                               decoration: InputDecoration(
-                                  labelText: "First Name",
-                                  icon: Icon(Icons.person_outline))),
+                                labelText: "First Name",
+                                labelStyle: TextStyle(
+                                    color: Theme.of(context).primaryColorLight),
+                                icon: Icon(Icons.person_outline,
+                                    color: Theme.of(context).primaryColorLight),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .primaryColorLight)),
+                              )),
                         ),
                         Container(
                           width: 350,
@@ -78,7 +88,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               controller: _lastNameController,
                               decoration: InputDecoration(
                                   labelText: "Last Name",
-                                  icon: Icon(Icons.person_outline))),
+                                  labelStyle: TextStyle(
+                                      color:
+                                          Theme.of(context).primaryColorLight),
+                                  icon: Icon(Icons.person_outline,
+                                      color: Theme.of(context)
+                                          .primaryColorLight),focusedBorder:UnderlineInputBorder(borderSide: BorderSide(color:Theme.of(context).primaryColorLight)) ,)),
                         ),
                         Container(
                           width: 350,
@@ -86,8 +101,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               controller: _emailController,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
-                                  labelText: "Email",
-                                  icon: Icon(Icons.email_outlined))),
+                                labelText: "Email",
+                                labelStyle: TextStyle(
+                                    color: Theme.of(context).primaryColorLight),
+                                icon: Icon(Icons.email_outlined,
+                                    color: Theme.of(context).primaryColorLight),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context)
+                                            .primaryColorLight)),
+                              ),),
                         ),
                         Container(
                           width: 350,
@@ -95,13 +118,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             controller: _passwordController,
                             obscureText: _ishidden,
                             decoration: InputDecoration(
-                                labelText: "Password",
-                                icon: Icon(Icons.lock_outlined),
-                                suffixIcon: IconButton(
-                                    icon: Icon(_ishidden
-                                        ? Icons.visibility
-                                        : Icons.visibility_off),
-                                    onPressed: _togglePassword1)),
+                              labelText: "Password",
+                              labelStyle: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
+                              icon: Icon(Icons.lock_outlined,
+                                  color: Theme.of(context).primaryColorLight),
+                              suffixIcon: IconButton(
+                                icon: Icon(_ishidden
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                                color: Theme.of(context).primaryColorLight,
+                                onPressed: _togglePassword1,
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color:
+                                          Theme.of(context).primaryColorLight)),
+                            ),
                           ),
                         ),
                         Container(
@@ -110,13 +143,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             controller: _confirmpasswordController,
                             obscureText: _ishidden1,
                             decoration: InputDecoration(
-                                labelText: "Confirm Password",
-                                icon: Icon(Icons.lock_outlined),
-                                suffixIcon: IconButton(
-                                    icon: Icon(_ishidden1
-                                        ? Icons.visibility
-                                        : Icons.visibility_off),
-                                    onPressed: _togglePassword2)),
+                              labelText: "Confirm Password",
+                              labelStyle: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
+                              icon: Icon(Icons.lock_outlined,
+                                  color: Theme.of(context).primaryColorLight),
+                              suffixIcon: IconButton(
+                                  icon: Icon(_ishidden1
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                  color: Theme.of(context).primaryColorLight,
+                                  onPressed: _togglePassword2),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color:
+                                          Theme.of(context).primaryColorLight)),
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),
@@ -144,7 +186,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text("Sign Up",
-                                        style: TextStyle(fontSize: 20)),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Theme.of(context)
+                                                .primaryColorLight)),
                                   ]),
                             ),
                             color: Colors.orange[800],
@@ -177,13 +222,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   onChanged: _checkbox),
                             ),
                             SizedBox(width: 10),
-                            Text("I agree to", style: TextStyle(fontSize: 10)),
+                            Text("I agree to",
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    color:
+                                        Theme.of(context).primaryColorLight)),
                             TextButton(
                                 onPressed: () {
                                   _showTNC();
                                 },
                                 child: Text("Terms and Conditions",
-                                    style: TextStyle(fontSize: 10)))
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        color: Theme.of(context)
+                                            .primaryColorLight)))
                           ],
                         ),
                         SizedBox(height: 1),
@@ -192,7 +244,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           children: [
                             Text(
                               "Already our member?",
-                              style: TextStyle(fontSize: 17),
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: Theme.of(context).primaryColorLight),
                             ),
                             GestureDetector(
                                 onTap: () {
@@ -204,12 +258,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 child: Text("Sign In",
                                     style: TextStyle(
                                         decoration: TextDecoration.underline,
-                                        fontSize: 17)))
+                                        fontSize: 17,
+                                        color: Theme.of(context)
+                                            .primaryColorLight)))
                           ],
                         ),
                         SizedBox(height: 6),
                         Text("Copyright Reserved by Tan Yi Qing @ 2021",
-                            style: TextStyle(fontSize: 8)),
+                            style: TextStyle(
+                                fontSize: 8,
+                                color: Theme.of(context).primaryColorLight)),
                         SizedBox(height: 2),
                       ],
                     ),
@@ -264,7 +322,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           textColor: Colors.black,
           fontSize: 16.0);
       return;
-    } else if (_password.length <7 && _confirmpassword.length <7) {
+    } else if (_password.length < 7 && _confirmpassword.length < 7) {
       Fluttertoast.showToast(
           msg: "Please set password with at least 8 characters",
           toastLength: Toast.LENGTH_SHORT,
@@ -274,9 +332,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           textColor: Colors.black,
           fontSize: 16.0);
       return;
-    }
-
-    else if (_password.contains(RegExp(r'[A-Z]')) == false) {
+    } else if (_password.contains(RegExp(r'[A-Z]')) == false) {
       Fluttertoast.showToast(
           msg: "Please contains at least one uppercase",
           toastLength: Toast.LENGTH_SHORT,
@@ -446,7 +502,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           fontSize: 14, fontWeight: FontWeight.bold))),
             ],
           ),
-          content: new Container(
+          content: new Container(color: Theme.of(context).cardColor,
             height: 350,
             width: 500,
             child: Column(
@@ -459,7 +515,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         textAlign: TextAlign.justify,
                         text: TextSpan(
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Theme.of(context).primaryColorDark,
                               fontSize: 12.0,
                             ),
                             text:
