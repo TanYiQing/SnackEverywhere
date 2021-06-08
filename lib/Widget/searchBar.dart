@@ -17,7 +17,16 @@ class _SearchBarState extends State<SearchBar> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
-          children: [Icon(Icons.search), Text("Search")],
+          children: [
+            Icon(Icons.search),
+            Padding(
+              padding: const EdgeInsets.only(left:8.0),
+              child: Text(
+                "Search",
+                style: TextStyle(color: Colors.grey[700], fontSize: 16),
+              ),
+            )
+          ],
         ),
       ),
     );

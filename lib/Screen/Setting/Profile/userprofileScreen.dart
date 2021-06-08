@@ -435,7 +435,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           content: Container(
               child: TextField(
             controller: _firstNameController,
-            cursorColor: Colors.black,
+            cursorColor: Theme.of(context).primaryColorDark,
             style: TextStyle(color: Theme.of(context).primaryColorDark),
             decoration: InputDecoration(
                 hintText: widget.user.first_name,
@@ -484,7 +484,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           content: Container(
               child: TextField(
             controller: _lastNameController,
-            cursorColor: Colors.black,
+            cursorColor: Theme.of(context).primaryColorDark,
             style: TextStyle(color: Theme.of(context).primaryColorDark),
             decoration: InputDecoration(
                 hintText: widget.user.last_name,

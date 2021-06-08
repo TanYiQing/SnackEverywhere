@@ -62,7 +62,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             icon: Icon(_ishidden
                                 ? Icons.visibility
                                 : Icons.visibility_off),
-                            color: Theme.of(context).primaryColorLight,
+                            color: Theme.of(context).primaryColorDark,
                             onPressed: () {
                               _togglePassword("old");
                             },
@@ -85,7 +85,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             icon: Icon(_ishidden1
                                 ? Icons.visibility
                                 : Icons.visibility_off),
-                            color: Theme.of(context).primaryColorLight,
+                            color: Theme.of(context).primaryColorDark,
                             onPressed: () {
                               _togglePassword("new");
                             },
@@ -108,7 +108,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             icon: Icon(_ishidden2
                                 ? Icons.visibility
                                 : Icons.visibility_off),
-                            color: Theme.of(context).primaryColorLight,
+                            color: Theme.of(context).primaryColorDark,
                             onPressed: () {
                               _togglePassword("confirm");
                             },

@@ -17,7 +17,7 @@ import 'package:animate_do/animate_do.dart';
 import 'Category/allitemScreen.dart';
 import 'Category/drinksScreen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:slide_countdown_clock/slide_countdown_clock.dart';
+//import 'package:slide_countdown_clock/slide_countdown_clock.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
@@ -34,6 +34,8 @@ var scaffoldKey = GlobalKey<ScaffoldState>();
 class _HomePageState extends State<HomePage> {
   CarouselController buttonCarouselController = CarouselController();
   List _cartList;
+  double screenWidth;
+  double screenHeight;
 
   @override
   void initState() {
@@ -43,6 +45,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         key: scaffoldKey,
         endDrawer: SlidingDrawer(user: widget.user),
@@ -79,7 +83,10 @@ class _HomePageState extends State<HomePage> {
           ],
           title: GestureDetector(
               onTap: () {
-               Navigator.push(context,MaterialPageRoute(builder: (content)=>SearchScreen(user:widget.user)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (content) => SearchScreen(user: widget.user)));
               },
               child: SearchBar()),
           shape: RoundedRectangleBorder(
@@ -130,15 +137,15 @@ class _HomePageState extends State<HomePage> {
             StaggeredTile.count(6, 0.5),
             StaggeredTile.count(6, 0.5),
             StaggeredTile.count(6, 4),
-            StaggeredTile.count(6, 0.5),
-            StaggeredTile.count(3, 3),
-            StaggeredTile.count(3, 3),
-            StaggeredTile.count(3, 3),
-            StaggeredTile.count(3, 3),
-            StaggeredTile.count(3, 3),
-            StaggeredTile.count(3, 3),
-            StaggeredTile.count(6, 0.5),
-            StaggeredTile.count(6, 0.5),
+            // StaggeredTile.count(6, 0.5),
+            // StaggeredTile.count(3, 3),
+            // StaggeredTile.count(3, 3),
+            // StaggeredTile.count(3, 3),
+            // StaggeredTile.count(3, 3),
+            // StaggeredTile.count(3, 3),
+            // StaggeredTile.count(3, 3),
+            // StaggeredTile.count(6, 0.5),
+            // StaggeredTile.count(6, 0.5),
             StaggeredTile.count(6, 0.5),
             StaggeredTile.count(6, 4.5),
             StaggeredTile.count(6, 4.5),
@@ -362,23 +369,29 @@ class _HomePageState extends State<HomePage> {
                                 children: [
                                   Text("It's dangerous outside...",
                                       style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: screenWidth / 20,
                                           color: Theme.of(context).focusColor)),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("STAY at HOME, ",
+                                  Container(
+                                    width: screenWidth,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text("STAY at HOME, ",
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .focusColor,
+                                                fontSize: screenWidth / 30)),
+                                        Text(
+                                          "We DELIVER for YOU",
                                           style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .focusColor)),
-                                      Text(
-                                        "We DELIVER for YOU",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Theme.of(context).focusColor,
-                                            fontSize: 18),
-                                      )
-                                    ],
+                                              fontWeight: FontWeight.bold,
+                                              color:
+                                                  Theme.of(context).focusColor,
+                                              fontSize: screenWidth / 20),
+                                        )
+                                      ],
+                                    ),
                                   )
                                 ],
                               )),
@@ -387,43 +400,43 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ]),
-            Row(
-              children: [
-                Container(
-                    child: Text("SHOCK Sales",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold))),
-                Icon(Icons.flash_on_sharp),
-                Container(
-                    child: SlideCountdownClock(
-                  duration: Duration(minutes: 30),
-                  slideDirection: SlideDirection.Up,
-                  separator: "-",
-                  textStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  separatorTextStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  padding: EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                      color: Colors.black, shape: BoxShape.rectangle),
-                  onDone: () {},
-                )),
-              ],
-            ),
-            Container(color: Colors.black),
-            Container(color: Colors.black),
-            Container(color: Colors.black),
-            Container(color: Colors.black),
-            Container(color: Colors.black),
-            Container(color: Colors.black),
-            Center(child: Container(child: Text("See more"))),
-            Container(),
+            // Row(
+            //   children: [
+            //     Container(
+            //         child: Text("SHOCK Sales",
+            //             style: TextStyle(
+            //                 fontSize: 18, fontWeight: FontWeight.bold))),
+            //     Icon(Icons.flash_on_sharp),
+            //     Container(
+            //         child: SlideCountdownClock(
+            //       duration: Duration(minutes: 30),
+            //       slideDirection: SlideDirection.Up,
+            //       separator: "-",
+            //       textStyle: TextStyle(
+            //         fontSize: 15,
+            //         fontWeight: FontWeight.bold,
+            //         color: Colors.white,
+            //       ),
+            //       separatorTextStyle: TextStyle(
+            //         fontSize: 15,
+            //         fontWeight: FontWeight.bold,
+            //         color: Colors.black,
+            //       ),
+            //       padding: EdgeInsets.all(2),
+            //       decoration: BoxDecoration(
+            //           color: Colors.black, shape: BoxShape.rectangle),
+            //       onDone: () {},
+            //     )),
+            //   ],
+            // ),
+            // Container(color: Colors.black),
+            // Container(color: Colors.black),
+            // Container(color: Colors.black),
+            // Container(color: Colors.black),
+            // Container(color: Colors.black),
+            // Container(color: Colors.black),
+            // Center(child: Container(child: Text("See more"))),
+            // Container(),
             Row(
               children: [
                 Container(
@@ -487,7 +500,8 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                         height: 270,
                         width: 350,
-                        child: Image.asset("assets/images/sell.png"))),
+                        child: Image.asset("assets/images/sell.png",
+                            fit: BoxFit.cover))),
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -578,35 +592,39 @@ class _HomePageState extends State<HomePage> {
                   ],
                 )),
                 Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          height: 80,
-                          width: 80,
-                          child: Image.asset("assets/images/Logo.png")),
-                      Text("We practices the RIGHT SOPs",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColorLight)),
-                      Text("1. Scan QR Code with My Sejahtera",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: Theme.of(context).primaryColorLight)),
-                      Text("2. Measure body temperature",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: Theme.of(context).primaryColorLight)),
-                      Text("3. Sanitize hand",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: Theme.of(context).primaryColorLight)),
-                    ],
+                  child: Container(
+                    height: screenHeight,
+                    width: screenWidth,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                            height: 80,
+                            width: 80,
+                            child: Image.asset("assets/images/Logo.png")),
+                        Text("We practices the RIGHT SOPs",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColorLight)),
+                        Text("1. Scan QR Code with My Sejahtera",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Theme.of(context).primaryColorLight)),
+                        Text("2. Measure body temperature",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Theme.of(context).primaryColorLight)),
+                        Text("3. Sanitize hand",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Theme.of(context).primaryColorLight)),
+                      ],
+                    ),
                   ),
                 )
               ]),
@@ -677,34 +695,34 @@ class _HomePageState extends State<HomePage> {
                       Text("Our Location",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 28,
+                              fontSize: 23,
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).primaryColorLight)),
                       Text("95, Jalan Bunga Raya",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 23,
+                              fontSize: 18,
                               color: Theme.of(context).primaryColorLight)),
                       Text("14000 Bukit Mertajam,",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 23,
+                              fontSize: 18,
                               color: Theme.of(context).primaryColorLight)),
                       Text("Penang, Malaysia",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 23,
+                              fontSize: 18,
                               color: Theme.of(context).primaryColorLight)),
                       Text("Contact Us",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 28,
+                              fontSize: 23,
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).primaryColorLight)),
                       Text("017-4308473",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 23,
+                              fontSize: 18,
                               color: Theme.of(context).primaryColorLight)),
                     ],
                   ),

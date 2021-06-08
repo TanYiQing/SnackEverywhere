@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +18,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController _searchController = new TextEditingController();
-  String _titlecenter = "Search Something Here...";
+  String _titlecenter = "";
   List _searchList;
   double screenWidth;
   double screenHeight;
@@ -45,6 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
         title: Container(
             height: 40,
             child: TextField(
+              cursorColor: Theme.of(context).primaryColorDark,
               controller: _searchController,
               style: TextStyle(fontSize: 18),
               decoration: new InputDecoration(
@@ -59,18 +59,12 @@ class _SearchScreenState extends State<SearchScreen> {
             )),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MaterialButton(
-                onPressed: () {
-                  setState(() {
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
                     _searchItem();
-                  });
-                },
-                color: Colors.amber[800],
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-                child: Text("Search", style: TextStyle(fontSize: 16))),
-          )
+                  }))
         ],
       ),
       body: Padding(
@@ -82,18 +76,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     ? Flexible(
                         child: Center(
                             child: Container(
-                          height: 20.0,
-                          child: AnimatedTextKit(
-                            animatedTexts: [
-                              WavyAnimatedText(_titlecenter,
-                                  textStyle: TextStyle(
-                                      fontSize: 20,
-                                      color:
-                                          Theme.of(context).primaryColorDark))
-                            ],
-                            isRepeatingAnimation: true,
-                          ),
-                        )),
+                                height: 200,
+                                width: 200,
+                                child: _titlecenter == ""
+                                    ? Container()
+                                    : Image.asset(_titlecenter))),
                       )
                     : Flexible(
                         child: Center(
@@ -218,16 +205,15 @@ class _SearchScreenState extends State<SearchScreen> {
         Uri.parse(
             "https://hubbuddies.com/270607/snackeverywhere/php/loadProductsCategory.php"),
         body: {"product_name": searchItem}).then((response) {
-      print(response.body);
       if (response.body == "nodata") {
-        _titlecenter = "Product Not Found";
+        _searchList = null;
+        _titlecenter = "assets/images/productnotfound.png";
         setState(() {});
         return;
       } else {
         var jsondata = json.decode(response.body);
         _searchList = jsondata["products"];
         setState(() {});
-        print(_searchList);
       }
     });
   }

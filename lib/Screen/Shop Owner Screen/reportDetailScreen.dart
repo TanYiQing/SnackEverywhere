@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:snackeverywhere/Class/reportReceive.dart';
-import 'package:http/http.dart' as http;
 
 class ReportDetailScreen extends StatefulWidget {
   final ReportReceive reportReceive;
@@ -15,7 +14,6 @@ class ReportDetailScreen extends StatefulWidget {
 
 class _ReportDetailScreenState extends State<ReportDetailScreen> {
   final df = new DateFormat('dd-MM-yyyy hh:mm a');
-  List _issueList;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,7 +136,6 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
 }
 
 class DetailScreen extends StatefulWidget {
-  @override
   final ReportReceive reportReceive;
 
   const DetailScreen({Key key, this.reportReceive}) : super(key: key);

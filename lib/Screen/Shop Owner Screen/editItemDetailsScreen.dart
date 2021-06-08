@@ -535,27 +535,27 @@ class _EditItemDetailsScreenState extends State<EditItemDetailsScreen> {
 
   void _editProduct() {
     setState(() {
-      String product_id =
-          widget.product.product_id; // ignore: non_constant_identifier_names
-      String product_name = _productnameController.text
-          .toString(); // ignore: non_constant_identifier_names
-      String product_desc = _productdescController.text
-          .toString(); // ignore: non_constant_identifier_names
-      String product_small_price = _smallpriceController.text
-          .toString(); // ignore: non_constant_identifier_names
-      String product_small_qty = _smallqtyController.text
-          .toString(); // ignore: non_constant_identifier_names
-      String product_large_price = _largepriceController.text
-          .toString(); // ignore: non_constant_identifier_names
-      String product_large_qty = _largeqtyController.text
-          .toString(); // ignore: non_constant_identifier_names
-      String product_cate =
-          product_cat; // ignore: non_constant_identifier_names
-      String instock_qtysmall = _instockqtysmallController.text
-          .toString(); // ignore: non_constant_identifier_names
-      String instock_qtylarge = _instockqtylargeController.text
-          .toString(); // ignore: non_constant_identifier_names
-      //String base64Image=base64Encode(_image.readAsBytesSync());
+      // ignore: non_constant_identifier_names
+      String product_id = widget.product.product_id;
+      // ignore: non_constant_identifier_names
+      String product_name = _productnameController.text.toString();
+      // ignore: non_constant_identifier_names
+      String product_desc = _productdescController.text.toString();
+      // ignore: non_constant_identifier_names
+      String product_small_price = _smallpriceController.text.toString();
+      // ignore: non_constant_identifier_names
+      String product_small_qty = _smallqtyController.text.toString();
+      // ignore: non_constant_identifier_names
+      String product_large_price = _largepriceController.text.toString();
+      // ignore: non_constant_identifier_names
+      String product_large_qty = _largeqtyController.text.toString();
+      // ignore: non_constant_identifier_names
+      String product_cate = product_cat;
+      // ignore: non_constant_identifier_names
+      String instock_qtysmall = _instockqtysmallController.text.toString();
+      // ignore: non_constant_identifier_names
+      String instock_qtylarge = _instockqtylargeController.text.toString();
+
       print(_categoryValue);
       print(product_id);
       print(product_name);
