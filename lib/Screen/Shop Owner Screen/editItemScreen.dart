@@ -333,28 +333,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
   }
 
   void _loadproducts(String productCat) {
-    if (productCat == "") {
-      print(productCat);
-      http.post(
-          Uri.parse(
-              "https://hubbuddies.com/270607/snackeverywhere/php/loadProducts.php"),
-          body: {}).then((response) {
-        print(response.body);
-        if (response.body == "nodata") {
-          _titlecenter = "No Product";
-          _productList = null;
-          setState(() {});
-          return;
-        } else {
-          var jsondata = json.decode(response.body);
-          _productList = jsondata["products"];
-          setState(() {
-            productCat = "";
-          });
-          print(_productList);
-        }
-      });
-    } else {
+      if(productCat==""){
+        productCat="All";
+      }
       print(productCat);
       http.post(
           Uri.parse(
@@ -373,7 +354,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           print(_productList);
         }
       });
-    }
+    
   }
 
   void _deleteProduct(int index) {

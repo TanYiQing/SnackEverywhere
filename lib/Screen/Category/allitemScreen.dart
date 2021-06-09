@@ -100,10 +100,13 @@ class _AllItemScreenState extends State<AllItemScreen> {
             },
             icon: Icon(Icons.arrow_back)),
         title: GestureDetector(
-              onTap: () {
-               Navigator.push(context,MaterialPageRoute(builder: (content)=>SearchScreen(user:widget.user)));
-              },
-              child: SearchBar()),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (content) => SearchScreen(user: widget.user)));
+            },
+            child: SearchBar()),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(bottomRight: Radius.circular(50))),
         bottom: PreferredSize(
@@ -393,8 +396,8 @@ class _AllItemScreenState extends State<AllItemScreen> {
   void _loadproducts() {
     http.post(
         Uri.parse(
-            "https://hubbuddies.com/270607/snackeverywhere/php/loadProducts.php"),
-        body: {}).then((response) {
+            "https://hubbuddies.com/270607/snackeverywhere/php/loadProductsCategory.php"),
+        body: {"product_cat":"All"}).then((response) {
       print(response.body);
       if (response.body == "nodata") {
         _titlecenter = "No Product";
