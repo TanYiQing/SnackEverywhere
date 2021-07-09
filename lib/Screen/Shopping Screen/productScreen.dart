@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:snackeverywhere/Class/product.dart';
 import 'package:snackeverywhere/Class/user.dart';
 import 'package:snackeverywhere/Screen/Shopping%20Screen/addtocartScreen.dart';
+import 'package:snackeverywhere/Screen/Shopping%20Screen/buynowScreen.dart';
+import 'package:snackeverywhere/Screen/Shopping%20Screen/cartListScreen.dart';
+import 'package:http/http.dart' as http;
 
 class ProductScreen extends StatefulWidget {
   final Product product;
@@ -17,9 +22,18 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   double screenWidth;
   double screenHeight;
+  List _cartList;
   List<bool> isSelected = [true, false];
 
   var controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadcart();
+  }
+
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
@@ -48,9 +62,16 @@ class _ProductScreenState extends State<ProductScreen> {
           },
         ),
         actions: [
-           Stack(children: [
+          Stack(children: [
             IconButton(
-                onPressed: () {}, icon: Icon(Icons.shopping_cart_outlined)),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (content) =>
+                              CartListScreen(user: widget.user)));
+                },
+                icon: Icon(Icons.shopping_cart_outlined)),
             Positioned(
               right: 6.0,
               bottom: 6.0,
@@ -62,7 +83,9 @@ class _ProductScreenState extends State<ProductScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(50))),
                 child: Center(
                     child: Text(
-                  widget.user.c_qty,
+                  (_cartList == null)
+                      ? "0"
+                      : _cartList[_cartList.length - 1]["t_quantity"],
                   style: TextStyle(
                       fontSize: 10,
                       color: Colors.black,
@@ -198,61 +221,6 @@ class _ProductScreenState extends State<ProductScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Ratings & Reviews",
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
-                      TextButton(
-                        onPressed: () {
-                          _service();
-                        },
-                        child: Text(
-                          "View All>",
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColorDark),
-                        ),
-                      )
-                    ],
-                  ),
-                )),
-            Divider(thickness: 1, color: Theme.of(context).cardColor),
-            Container(
-                width: double.infinity,
-                height: screenHeight / 13,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Username",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(_checkReview("1 This is a demo review")),
-                    ],
-                  ),
-                )),
-            Container(
-                width: double.infinity,
-                height: screenHeight / 13,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Username",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(_checkReview("2 This is a demo review")),
-                    ],
-                  ),
-                )),
-            Divider(thickness: 10, color: Theme.of(context).cardColor),
-            Container(
-                width: double.infinity,
-                height: screenHeight / 13,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
                       Text("Product Description",
                           style: TextStyle(
                             fontSize: 20,
@@ -262,7 +230,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           _desc();
                         },
                         child: Text(
-                          "View All>",
+                          "View All",
                           style: TextStyle(
                               color: Theme.of(context).primaryColorDark),
                         ),
@@ -397,7 +365,13 @@ class _ProductScreenState extends State<ProductScreen> {
                 heroTag: "buybtn",
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (content) => BuyNowScreen(
+                              product: widget.product, user: widget.user)));
+                },
                 child: Text("Buy Now"),
               )),
           Padding(
@@ -630,7 +604,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             child: new SingleChildScrollView(
                               child: RichText(
                                   softWrap: true,
-                                  textAlign: TextAlign.justify,
+                                  textAlign: TextAlign.left,
                                   text: TextSpan(
                                       style: TextStyle(
                                         color:
@@ -650,11 +624,22 @@ class _ProductScreenState extends State<ProductScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  _checkReview(String text) {
-    if (text.length < 15) {
-      return text;
-    } else {
-      return text.substring(0, 15) + "...";
-    }
+  void _loadcart() {
+    http.post(
+        Uri.parse(
+            "https://hubbuddies.com/270607/snackeverywhere/php/loadCart.php"),
+        body: {"email": widget.user.email}).then((response) {
+      print(response.body);
+      if (response.body == "Cart Empty") {
+        _cartList = null;
+        setState(() {});
+        return;
+      } else {
+        var jsondata = json.decode(response.body);
+        _cartList = jsondata["cart"];
+        setState(() {});
+        print(_cartList);
+      }
+    });
   }
 }

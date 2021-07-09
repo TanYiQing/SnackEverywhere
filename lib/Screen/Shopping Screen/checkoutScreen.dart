@@ -4,8 +4,12 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:snackeverywhere/Class/order.dart';
 import 'package:snackeverywhere/Class/user.dart';
+import 'package:snackeverywhere/Screen/Shopping%20Screen/paymentScreen.dart';
 import 'package:snackeverywhere/Screen/Shopping%20Screen/selectaddressScreen.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:intl/intl.dart';
 
 class CheckOutScreen extends StatefulWidget {
   final User user;
@@ -37,10 +41,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   String deliverycharge = "0.00";
   String promodiscount = "0.00";
   String collectDate;
+  final dateformat = DateFormat("yyyy-MM-dd");
+  final timeformat = DateFormat("HH:mm");
 
   TextEditingController _promoController = new TextEditingController();
-  TextEditingController _dateController = new TextEditingController();
-  TextEditingController _timeController = new TextEditingController();
+  TextEditingController _dateController =
+      new TextEditingController(text: "Date");
+  TextEditingController _timeController =
+      new TextEditingController(text: "Time");
   @override
   void initState() {
     super.initState();
@@ -134,7 +142,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 : Text(
                                                     widget.data == null
                                                         ? _shippingAddressList[
-                                                            index]["s_name"]
+                                                            0]["s_name"]
                                                         : _shippingAddressList[
                                                                 widget.data]
                                                             ["s_name"],
@@ -146,7 +154,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 : Text(
                                                     widget.data == null
                                                         ? _shippingAddressList[
-                                                            index]["email"]
+                                                            0]["email"]
                                                         : _shippingAddressList[
                                                                 widget.data]
                                                             ["email"],
@@ -158,7 +166,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 : Text(
                                                     widget.data == null
                                                         ? _shippingAddressList[
-                                                            index]["s_phone"]
+                                                                0]
+                                                            ["s_phone"]
                                                         : _shippingAddressList[
                                                                 widget.data]
                                                             ["s_phone"],
@@ -172,7 +181,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                     : Text(
                                                         widget.data == null
                                                             ? _shippingAddressList[
-                                                                        index][
+                                                                        0][
                                                                     "s_address1"] +
                                                                 ","
                                                             : _shippingAddressList[
@@ -189,7 +198,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                     : Text(
                                                         widget.data == null
                                                             ? _shippingAddressList[
-                                                                        index][
+                                                                        0][
                                                                     "s_address2"] +
                                                                 ","
                                                             : _shippingAddressList[
@@ -208,7 +217,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 : Text(
                                                     widget.data == null
                                                         ? _shippingAddressList[
-                                                                    index]
+                                                                    0]
                                                                 ["s_address3"] +
                                                             " "
                                                         : _shippingAddressList[
@@ -225,7 +234,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                     : Text(
                                                         widget.data == null
                                                             ? _shippingAddressList[
-                                                                        index]
+                                                                        0]
                                                                     ["s_zip"] +
                                                                 " "
                                                             : _shippingAddressList[
@@ -241,7 +250,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                     : Text(
                                                         widget.data == null
                                                             ? _shippingAddressList[
-                                                                        index]
+                                                                        0]
                                                                     ["s_city"] +
                                                                 ","
                                                             : _shippingAddressList[
@@ -257,7 +266,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                     : Text(
                                                         widget.data == null
                                                             ? _shippingAddressList[
-                                                                        index][
+                                                                        0][
                                                                     "s_state"] +
                                                                 " "
                                                             : _shippingAddressList[
@@ -365,75 +374,48 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Container(
-                                                color: Theme.of(context)
-                                                    .backgroundColor,
-                                                height: 40,
-                                                width: screenWidth / 2.5,
-                                                child: TextField(
-                                                    controller: _dateController,
-                                                    cursorColor:
-                                                        Theme.of(context)
-                                                            .primaryColorDark,
-                                                    decoration: InputDecoration(
-                                                      contentPadding:
-                                                          EdgeInsets.only(
-                                                              bottom: 10.0,
-                                                              left: 10),
-                                                      hintText: "dd/mm/yyyy",
-                                                      focusedBorder: OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .primaryColorDark),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10))),
-                                                      border: OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10))),
-                                                    ),
-                                                    style: TextStyle(
-                                                        fontSize: 18))),
+                                              color: Theme.of(context)
+                                                  .backgroundColor,
+                                              height: 40,
+                                              width: screenWidth / 2.5,
+                                              child: DateTimeField(
+                                                controller: _dateController,
+                                                format: dateformat,
+                                                onShowPicker:
+                                                    (context, currentValue) {
+                                                  return showDatePicker(
+                                                      context: context,
+                                                      firstDate: DateTime(1900),
+                                                      initialDate:
+                                                          currentValue ??
+                                                              DateTime.now(),
+                                                      lastDate: DateTime(2100));
+                                                },
+                                              ),
+                                            ),
                                             Container(
-                                                color: Theme.of(context)
-                                                    .backgroundColor,
-                                                height: 40,
-                                                width: screenWidth / 2.5,
-                                                child: TextField(
-                                                    controller: _timeController,
-                                                    cursorColor:
-                                                        Theme.of(context)
-                                                            .primaryColorDark,
-                                                    decoration: InputDecoration(
-                                                      contentPadding:
-                                                          EdgeInsets.only(
-                                                              bottom: 10.0,
-                                                              left: 10),
-                                                      hintText: "24 hrs format",
-                                                      focusedBorder: OutlineInputBorder(
-                                                          borderSide: BorderSide(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .primaryColorDark),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10))),
-                                                      border: OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          10))),
-                                                    ),
-                                                    style: TextStyle(
-                                                        fontSize: 18)))
+                                              color: Theme.of(context)
+                                                  .backgroundColor,
+                                              height: 40,
+                                              width: screenWidth / 2.5,
+                                              child: DateTimeField(
+                                                controller: _timeController,
+                                                format: timeformat,
+                                                onShowPicker: (context,
+                                                    currentValue) async {
+                                                  final time =
+                                                      await showTimePicker(
+                                                    context: context,
+                                                    initialTime:
+                                                        TimeOfDay.fromDateTime(
+                                                            currentValue ??
+                                                                DateTime.now()),
+                                                  );
+                                                  return DateTimeField.convert(
+                                                      time);
+                                                },
+                                              ),
+                                            )
                                           ])),
                                 ]),
                               ),
@@ -881,152 +863,47 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     } else {
       paymentoption = "Card";
     }
+    print(_dateController.text.toString());
+    print(widget.user.email);
+    print(paymentoption);
+    print(_shippingAddressList[data]["shipping_id"]);
+    print(_cartList[_cartList.length - 1]["grandtotal"]);
+    print(deliverycharge);
+    print((_promoController.text.toString() == "RAYAFEST")
+        ? "-" +
+            _calculatePromo(_calculateTotal(
+                _cartList[_cartList.length - 1]["grandtotal"],
+                deliverycharge,
+                _promoController.text.toString()))
+        : "0.00");
+    print(_calculateTotal(_cartList[_cartList.length - 1]["grandtotal"],
+        deliverycharge, _promoController.text.toString()));
 
-    print(
-      _shippingAddressList[data]["shipping_id"],
-    );
+    Order order = new Order(
+        firstname: widget.user.first_name,
+        lastname: widget.user.last_name,
+        email: widget.user.email,
+        payment_option: paymentoption,
+        shipping_id: _shippingAddressList[data]["shipping_id"],
+        subtotal: _cartList[_cartList.length - 1]["grandtotal"],
+        deliverycharge: deliverycharge,
+        discount: (_promoController.text.toString() == "RAYAFEST")
+            ? "-" +
+                _calculatePromo(_calculateTotal(
+                    _cartList[_cartList.length - 1]["grandtotal"],
+                    deliverycharge,
+                    _promoController.text.toString()))
+            : "0.00",
+        orderAmount: _calculateTotal(
+            _cartList[_cartList.length - 1]["grandtotal"],
+            deliverycharge,
+            _promoController.text.toString()),
+        collect_option: option,
+        collect_date: _dateController.text.toString() +
+            " " +
+            _timeController.text.toString());
 
-    http.post(
-        Uri.parse(
-            "https://hubbuddies.com/270607/snackeverywhere/php/publishOrder.php"),
-        body: {
-          "email": widget.user.email,
-          "collect_option": option,
-          "collect_date": _dateController.text.toString() +
-              " " +
-              _timeController.text.toString(),
-          "payment_option": paymentoption,
-          "address": _shippingAddressList[data]["shipping_id"],
-        }).then((response) {
-      print(response.body);
-      if (response.body == "Failed") {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.close_rounded, color: Colors.red),
-                    Container(child: Text("  Order Failed")),
-                  ],
-                ),
-                content: Container(
-                    height: 50,
-                    child: Center(
-                        child: Text("Please contact us for any query."))),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Ok", style: TextStyle(color: Colors.blue)),
-                  ),
-                ],
-              );
-            });
-      } else {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.done_outline_sharp, color: Colors.green),
-                    Container(child: Text("  Order Placed!")),
-                  ],
-                ),
-                content: Container(
-                  height: 250,
-                  child: Stack(children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            "- - - - - - - - - - - Receipt - - - - - - - - - - -"),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Subtotal (RM)"),
-                              Text(
-                                  _cartList[_cartList.length - 1]["grandtotal"])
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Delivery Charge (RM)"),
-                              Text(deliverycharge)
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Promocode Discount (RM)"),
-                              Text((_promoController.text.toString() ==
-                                      "RAYAFEST")
-                                  ? "-" +
-                                      _calculatePromo(_calculateTotal(
-                                          _cartList[_cartList.length - 1]
-                                              ["grandtotal"],
-                                          deliverycharge,
-                                          _promoController.text.toString()))
-                                  : "0.00")
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Order Amount (RM)"),
-                              Text(_calculateTotal(
-                                  _cartList[_cartList.length - 1]["grandtotal"],
-                                  deliverycharge,
-                                  _promoController.text.toString()))
-                            ],
-                          ),
-                        ),
-                        Text(
-                            "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -"),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Payment Method"),
-                              Text((hasbeenPressed == true) ? "Cash" : "Card")
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ]),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      int count = 0;
-                      Navigator.of(context).popUntil((_) => count++ >= 4);
-                    },
-                    child: Text("Ok", style: TextStyle(color: Colors.blue)),
-                  ),
-                ],
-              );
-            });
-
-        return;
-      }
-    });
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (content) => PaymentScreen(order: order)));
   }
 }

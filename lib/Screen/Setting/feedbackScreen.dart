@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:snackeverywhere/Widget/bottombar.dart';
 import 'package:snackeverywhere/Class/user.dart';
 import 'package:http/http.dart' as http;
 
@@ -128,7 +127,6 @@ class _FeedBackScreenState extends State<FeedBackScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomBar(),
     );
   }
 

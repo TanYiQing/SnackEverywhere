@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:snackeverywhere/Class/product.dart';
 import 'package:snackeverywhere/Class/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:snackeverywhere/Screen/Shopping%20Screen/checkoutScreen.dart';
 
-class AddToCartScreen extends StatefulWidget {
+class BuyNowScreen extends StatefulWidget {
   final Product product;
   final User user;
 
-  const AddToCartScreen({Key key, this.product, this.user}) : super(key: key);
+  const BuyNowScreen({Key key, this.product, this.user}) : super(key: key);
 
   @override
-  _AddToCartScreenState createState() => _AddToCartScreenState();
+  _BuyNowScreenState createState() => _BuyNowScreenState();
 }
 
-class _AddToCartScreenState extends State<AddToCartScreen> {
+class _BuyNowScreenState extends State<BuyNowScreen> {
   double screenWidth;
   double screenHeight;
   bool hasbeenPressed = true;
@@ -33,14 +34,14 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
             width: 80,
             child: FloatingActionButton(
                 onPressed: () {
-                  _addCart();
+                  _buyNow();
                 },
                 backgroundColor: Colors.amber,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(Icons.add),
-                    Icon(Icons.shopping_cart_outlined),
+                    Icon(Icons.shopping_bag_outlined),
                   ],
                 )),
           ),
@@ -92,7 +93,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                checkProductName(widget.product.product_name),
+                                widget.product.product_name,
                                 style: TextStyle(fontSize: 24),
                               ),
                             ],
@@ -304,7 +305,7 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
         ));
   }
 
-  void _addCart() {
+  void _buyNow() {
     String email = widget.user.email;
     // ignore: non_constant_identifier_names
     String product_id = widget.product.product_id;
@@ -343,16 +344,8 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
       } else {
         print(response.body);
 
-        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (content)=>CheckOutScreen(user: widget.user,)));
       }
     });
-  }
-
-  String checkProductName(String productName) {
-    if (productName.length < 25) {
-      return productName;
-    } else {
-      return productName.substring(0, 25) + "...";
-    }
   }
 }

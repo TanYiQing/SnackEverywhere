@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:snackeverywhere/Class/s_address.dart';
 import 'package:snackeverywhere/Class/user.dart';
@@ -17,6 +16,7 @@ class SelectAddressScreen extends StatefulWidget {
 }
 
 class _SelectAddressScreenState extends State<SelectAddressScreen> {
+  // ignore: unused_field
   String _titlecenter = "Loading...";
   double screenWidth;
   double screenHeight;
@@ -52,20 +52,40 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           (_shippingAddressList == null)
-              ? Expanded(
-                  child: Center(
-                      child: Container(
-                    height: 20.0,
-                    child: AnimatedTextKit(
-                      animatedTexts: [
-                        WavyAnimatedText(_titlecenter,
-                            textStyle: TextStyle(
-                                fontSize: 20,
-                                color: Theme.of(context).primaryColorDark))
-                      ],
-                      isRepeatingAnimation: true,
-                    ),
-                  )),
+              ? GestureDetector(
+                  onTap: () {
+                    _addAddress();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                        width: double.infinity,
+                        height: screenHeight / 5.5,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey[800],
+                                offset: Offset(5.0, 8.0),
+                                blurRadius: 6.0,
+                              ),
+                            ],
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Theme.of(context).primaryColor),
+                        child: Center(
+                            child: Column(
+                          children: [
+                            Container(
+                                height: 100,
+                                width: 100,
+                                child: Image.asset(
+                                    "assets/images/addaddress.png")),
+                            Text(
+                              "Add Address",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ))),
+                  ),
                 )
               : Expanded(
                   child: ListView.builder(
@@ -278,17 +298,20 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
   }
 
   void _addAddress() {
-    S_Address s_address = new S_Address(// ignore: non_constant_identifier_names
-        email: widget.user.email,
-        s_name:"",
-        shipping_id:"",
-        s_phone: "",
-        s_address1:"",
-        s_address2: "",
-        s_address3: "",
-        s_zip: "",
-        s_city: "",);
-        Navigator.pushReplacement(
+    // ignore: non_constant_identifier_names
+    S_Address s_address = new S_Address(
+      // ignore: non_constant_identifier_names
+      email: widget.user.email,
+      s_name: "",
+      shipping_id: "",
+      s_phone: "",
+      s_address1: "",
+      s_address2: "",
+      s_address3: "",
+      s_zip: "",
+      s_city: "",
+    );
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (content) => ShippingAddressScreen(s_address: s_address)));

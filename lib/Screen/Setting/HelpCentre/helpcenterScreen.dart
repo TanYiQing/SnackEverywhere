@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snackeverywhere/Screen/Setting/HelpCentre/contactusScreen.dart';
 import 'package:snackeverywhere/Screen/Setting/HelpCentre/reportissueScreen.dart';
-import 'package:snackeverywhere/Widget/bottombar.dart';
 import 'package:snackeverywhere/Screen/Setting/HelpCentre/faqScreen.dart';
 
 import 'package:snackeverywhere/Class/user.dart';
@@ -150,7 +149,6 @@ class _HelpCenterScreenState extends State<HelpCenterScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomBar(),
     );
   }
 }

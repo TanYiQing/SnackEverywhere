@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:snackeverywhere/Class/delivery.dart';
+import 'package:snackeverywhere/Screen/mappage.dart';
 import 'package:snackeverywhere/Widget/dropdownbutton.dart';
 import 'package:snackeverywhere/Class/s_address.dart';
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class ShippingAddressScreen extends StatefulWidget {
-  final S_Address s_address;// ignore: non_constant_identifier_names
+  final S_Address s_address; // ignore: non_constant_identifier_names
 
-  const ShippingAddressScreen({Key key, this.s_address}) : super(key: key);// ignore: non_constant_identifier_names
+  // ignore: non_constant_identifier_names
+  const ShippingAddressScreen({Key key, this.s_address}) : super(key: key);
 
   @override
   _ShippingAddressScreenState createState() => _ShippingAddressScreenState();
@@ -19,6 +24,8 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
   TextEditingController _address2Controller = new TextEditingController();
   TextEditingController _address3Controller = new TextEditingController();
   TextEditingController _zipController = new TextEditingController();
+  // TextEditingController _userlocctrl = new TextEditingController();
+  String address = "";
 
   @override
   void initState() {
@@ -39,20 +46,45 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          elevation: 0,
-          iconTheme: IconThemeData(color: Theme.of(context).primaryColorDark),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.secondary
-              ]),
-            ),
+        elevation: 0,
+        iconTheme: IconThemeData(color: Theme.of(context).primaryColorDark),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+              Theme.of(context).colorScheme.primary,
+              Theme.of(context).colorScheme.secondary
+            ]),
           ),
-          title: Text(
-            "Shipping Address",
-            style: TextStyle(color: Theme.of(context).primaryColorDark),
-          )),
+        ),
+        title: Text(
+          "Shipping Address",
+          style: TextStyle(color: Theme.of(context).primaryColorDark),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.location_searching_rounded, color: Colors.red),
+            onPressed: () {
+              _getUserCurrentLoc();
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.map_outlined, color: Colors.red),
+            onPressed: () async {
+              Delivery _del = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => MapPage(),
+                ),
+              );
+              print(address);
+              setState(() {
+                _address1Controller.text = _del.name + ", " + _del.subLocality;
+                _address2Controller.text = _del.locality;
+                _zipController.text = _del.postalCode;
+              });
+            },
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -225,27 +257,35 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
   void _saveChanges() {
     setState(() {
       String email = widget.s_address.email;
-      String shipping_id = widget.s_address.shipping_id;// ignore: non_constant_identifier_names
-      String s_name = (_nameController.text.toString() == "")// ignore: non_constant_identifier_names
+      // ignore: non_constant_identifier_names
+      String shipping_id = widget.s_address.shipping_id;
+      // ignore: non_constant_identifier_names
+      String s_name = (_nameController.text.toString() == "")
           ? widget.s_address.s_name
           : _nameController.text.toString();
-      String s_phone = (_phoneController.text.toString() == "")// ignore: non_constant_identifier_names
+      // ignore: non_constant_identifier_names
+      String s_phone = (_phoneController.text.toString() == "")
           ? widget.s_address.s_phone
           : _phoneController.text.toString();
-      String s_address1 = (_address1Controller.text.toString() == "")// ignore: non_constant_identifier_names
+      // ignore: non_constant_identifier_names
+      String s_address1 = (_address1Controller.text.toString() == "")
           ? widget.s_address.s_address1
           : _address1Controller.text.toString();
-      String s_address2 = (_address2Controller.text.toString() == "")// ignore: non_constant_identifier_names
+      // ignore: non_constant_identifier_names
+      String s_address2 = (_address2Controller.text.toString() == "")
           ? widget.s_address.s_address2
           : _address2Controller.text.toString();
-      String s_address3 = (_address3Controller.text.toString() == "")// ignore: non_constant_identifier_names
+      // ignore: non_constant_identifier_names
+      String s_address3 = (_address3Controller.text.toString() == "")
           ? widget.s_address.s_address3
           : _address3Controller.text.toString();
-      String s_zip = (_zipController.text.toString() == "")// ignore: non_constant_identifier_names
+      // ignore: non_constant_identifier_names
+      String s_zip = (_zipController.text.toString() == "")
           ? widget.s_address.s_zip
           : _zipController.text.toString();
-      String s_city = widget.s_address.s_city;// ignore: non_constant_identifier_names
-      String s_state = "Penang";// ignore: non_constant_identifier_names
+      // ignore: non_constant_identifier_names
+      String s_city = widget.s_address.s_city;
+      String s_state = "Penang"; // ignore: non_constant_identifier_names
       print(shipping_id);
       http.post(
           Uri.parse(
@@ -339,15 +379,24 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
   void _addAddress() {
     setState(() {
       String email = widget.s_address.email;
-      String shipping_id = widget.s_address.shipping_id;// ignore: non_constant_identifier_names
-      String s_name = _nameController.text.toString();// ignore: non_constant_identifier_names
-      String s_phone = _phoneController.text.toString();// ignore: non_constant_identifier_names
-      String s_address1 = _address1Controller.text.toString();// ignore: non_constant_identifier_names
-      String s_address2 = _address2Controller.text.toString();// ignore: non_constant_identifier_names
-      String s_address3 = _address3Controller.text.toString();// ignore: non_constant_identifier_names
-      String s_zip = _zipController.text.toString();// ignore: non_constant_identifier_names
-      String s_city = widget.s_address.s_city;// ignore: non_constant_identifier_names
-      String s_state = "Penang";// ignore: non_constant_identifier_names
+      // ignore: non_constant_identifier_names
+      String shipping_id = widget.s_address.shipping_id;
+      // ignore: non_constant_identifier_names
+      String s_name = _nameController.text.toString();
+      // ignore: non_constant_identifier_names
+      String s_phone = _phoneController.text.toString();
+      // ignore: non_constant_identifier_names
+      String s_address1 = _address1Controller.text.toString();
+      // ignore: non_constant_identifier_names
+      String s_address2 = _address2Controller.text.toString();
+      // ignore: non_constant_identifier_names
+      String s_address3 = _address3Controller.text.toString();
+      // ignore: non_constant_identifier_names
+      String s_zip = _zipController.text.toString();
+      // ignore: non_constant_identifier_names
+      String s_city = widget.s_address.s_city;
+      // ignore: non_constant_identifier_names
+      String s_state = "Penang";
 
       print(shipping_id);
       http.post(
@@ -437,5 +486,69 @@ class _ShippingAddressScreenState extends State<ShippingAddressScreen> {
         }
       });
     });
+  }
+
+  _getUserCurrentLoc() async {
+    await _determinePosition().then((value) => {_getPlace(value)});
+    setState(
+      () {},
+    );
+  }
+
+  void _getPlace(Position pos) async {
+    List<Placemark> newPlace =
+        await placemarkFromCoordinates(pos.latitude, pos.longitude);
+
+    // this is all you need
+    Placemark placeMark = newPlace[0];
+    String name = placeMark.name.toString();
+    String subLocality = placeMark.thoroughfare.toString();
+    String locality = placeMark.locality.toString();
+    String administrativeArea = placeMark.administrativeArea.toString();
+    String postalCode = placeMark.postalCode.toString();
+    String country = placeMark.country.toString();
+    address = name +
+        "," +
+        subLocality +
+        ",\n" +
+        locality +
+        "," +
+        postalCode +
+        ",\n" +
+        administrativeArea +
+        "," +
+        country;
+    // _userlocctrl.text = address;
+    print(address);
+
+    setState(() {
+      _address1Controller.text = name + ", " + subLocality;
+      _address2Controller.text = locality;
+      _zipController.text = postalCode;
+    });
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition();
   }
 }

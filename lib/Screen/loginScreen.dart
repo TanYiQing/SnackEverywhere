@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:snackeverywhere/Screen/homePage.dart';
 import 'package:snackeverywhere/Screen/registrationScreen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:getwidget/getwidget.dart';
 import 'package:snackeverywhere/Class/user.dart';
+import 'package:snackeverywhere/Widget/bottombar.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -147,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
-                        
                         SizedBox(height: 48),
                         MaterialButton(
                             shape: RoundedRectangleBorder(
@@ -225,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (content) => HomePage(
+                builder: (content) => BottomBar(
                       user: user,
                     )));
       }

@@ -134,7 +134,7 @@ class _NutsScreenState extends State<NutsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                    width: screenWidth / 1.4,
+                    width: screenWidth / 1.2,
                     height: 40,
                     child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -225,10 +225,7 @@ class _NutsScreenState extends State<NutsScreen> {
                       ? Icon(Icons.format_list_bulleted_sharp)
                       : Icon(Icons.grid_view),
                 ),
-                IconButton(
-                  icon: Icon(Icons.filter_alt_outlined),
-                  onPressed: () {},
-                )
+            
               ],
             ),
             Container(

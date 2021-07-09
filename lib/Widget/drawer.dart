@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:snackeverywhere/Screen/Setting/Profile/userprofileScreen.dart';
 import 'package:snackeverywhere/Screen/Setting/appearanceScreen.dart';
 import 'package:snackeverywhere/Screen/Setting/feedbackScreen.dart';
@@ -153,10 +154,22 @@ class _SlidingDrawerState extends State<SlidingDrawer> {
                     leading: Icon(Icons.login,
                         color: Theme.of(context).primaryColorLight),
                     onTap: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (content) => ShopOwnerHomePage(user: widget.user)));
+                      if (widget.user.email != "yiqingtan9991@gmail.com") {
+                        Fluttertoast.showToast(
+                            msg: "Oops... You are not the shop owner",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.white,
+                            textColor: Colors.black,
+                            fontSize: 16.0);
+                      } else {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (content) =>
+                                    ShopOwnerHomePage(user: widget.user)));
+                      }
                     },
                   )),
               SizedBox(height: 5),

@@ -139,7 +139,7 @@ class _AllItemScreenState extends State<AllItemScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                    width: screenWidth / 1.4,
+                    width: screenWidth / 1.2,
                     height: 40,
                     child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -230,10 +230,6 @@ class _AllItemScreenState extends State<AllItemScreen> {
                       ? Icon(Icons.format_list_bulleted_sharp)
                       : Icon(Icons.grid_view),
                 ),
-                IconButton(
-                  icon: Icon(Icons.filter_alt_outlined),
-                  onPressed: () {},
-                )
               ],
             ),
             Container(
@@ -259,7 +255,7 @@ class _AllItemScreenState extends State<AllItemScreen> {
                             child: GridView.count(
                                 crossAxisCount: _screenRatio,
                                 childAspectRatio:
-                                    (screenWidth / screenHeight) / 0.65, //0.61,
+                                    (screenWidth / screenHeight) / 0.65, 
                                 children:
                                     List.generate(_productList.length, (index) {
                                   return Padding(
@@ -368,7 +364,7 @@ class _AllItemScreenState extends State<AllItemScreen> {
           ],
         ),
       ),
-      //bottomNavigationBar: BottomBar(),
+     
     );
   }
 
@@ -397,7 +393,7 @@ class _AllItemScreenState extends State<AllItemScreen> {
     http.post(
         Uri.parse(
             "https://hubbuddies.com/270607/snackeverywhere/php/loadProductsCategory.php"),
-        body: {"product_cat":"All"}).then((response) {
+        body: {"product_cat": "All"}).then((response) {
       print(response.body);
       if (response.body == "nodata") {
         _titlecenter = "No Product";

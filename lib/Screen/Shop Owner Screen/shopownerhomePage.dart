@@ -8,7 +8,7 @@ import 'package:snackeverywhere/Screen/Shop%20Owner%20Screen/feedbackReceivedScr
 import 'package:snackeverywhere/Screen/Shop%20Owner%20Screen/orderreceivedScreen.dart';
 import 'package:snackeverywhere/Screen/Shop%20Owner%20Screen/reportreceivedScreen.dart';
 import 'package:snackeverywhere/Screen/Shop%20Owner%20Screen/stockScreen.dart';
-import 'package:snackeverywhere/Screen/homePage.dart';
+import 'package:snackeverywhere/Widget/bottombar.dart';
 import 'package:snackeverywhere/Widget/pieChartSections.dart';
 import 'package:snackeverywhere/Widget/searchBar.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -44,7 +44,7 @@ class _ShopOwnerHomePageState extends State<ShopOwnerHomePage> {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (content) => HomePage(user: widget.user)));
+                      builder: (content) => BottomBar(user: widget.user)));
             },
           )
         ],
@@ -230,11 +230,14 @@ class _ShopOwnerHomePageState extends State<ShopOwnerHomePage> {
                     ]),
               ),
             ),
-            GestureDetector(onTap:(){Navigator.push(
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (content) => OrderReceivedScreen()));},
-                          child: Material(
+                        builder: (content) => OrderReceivedScreen()));
+              },
+              child: Material(
                 color: Theme.of(context).backgroundColor,
                 elevation: 20,
                 borderRadius: BorderRadius.all(Radius.circular(30)),

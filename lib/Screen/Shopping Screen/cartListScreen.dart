@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -21,6 +20,7 @@ class _CartListScreenState extends State<CartListScreen> {
   double screenWidth;
   double screenHeight;
   List _cartList;
+  // ignore: unused_field
   String _titlecenter = "Loading...";
   TextEditingController _qtyController = new TextEditingController();
   int qty = 1;
@@ -61,18 +61,9 @@ class _CartListScreenState extends State<CartListScreen> {
                     ? Flexible(
                         child: Center(
                             child: Container(
-                          height: 20.0,
-                          child: AnimatedTextKit(
-                            animatedTexts: [
-                              WavyAnimatedText(_titlecenter,
-                                  textStyle: TextStyle(
-                                      fontSize: 20,
-                                      color:
-                                          Theme.of(context).primaryColorDark))
-                            ],
-                            isRepeatingAnimation: true,
-                          ),
-                        )),
+                                height: 100.0,
+                                child: Image.asset(
+                                    "assets/images/emptycart.png"))),
                       )
                     : Flexible(
                         child: Center(
@@ -417,7 +408,6 @@ class _CartListScreenState extends State<CartListScreen> {
               child: FloatingActionButton(
                 backgroundColor: Colors.amber[800],
                 onPressed: () {
-                  
                   if (_cartList != null) {
                     Navigator.push(
                         context,
@@ -454,7 +444,87 @@ class _CartListScreenState extends State<CartListScreen> {
     }
   }
 
-  void _deleteProduct(int index) {}
+  void _deleteProduct(int index) {
+    // ignore: non_constant_identifier_names
+    String product_id =
+        _cartList[index]["product_id"]; // ignore: non_constant_identifier_names
+    print(product_id);
+    print(widget.user.email);
+    http.post(
+        Uri.parse(
+            "https://hubbuddies.com/270607/snackeverywhere/php/deleteCart.php"),
+        body: {
+          "product_id": product_id,
+          "email": widget.user.email,
+        }).then((response) {
+      print(response.body);
+      if (response.body == "Success") {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Row(
+                  children: [
+                    Container(
+                        height: 25,
+                        width: 25,
+                        child: Image.asset("assets/images/Logo.png")),
+                    Container(child: Text("Deleted")),
+                  ],
+                ),
+                content: Container(
+                  height: 25,
+                  child: Text("Card deleted successfully"),
+                ),
+                actions: [
+                  TextButton(
+                      child: Text("Ok", style: TextStyle(color: Colors.blue)),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        setState(() {
+                          _loadcart();
+                        });
+                      }),
+                ],
+              );
+            });
+      } else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Row(
+                  children: [
+                    Container(
+                        height: 25,
+                        width: 25,
+                        child: Image.asset("assets/images/Logo.png")),
+                    Container(child: Text("Opps...")),
+                  ],
+                ),
+                content: Container(
+                  height: 70,
+                  child: Text("Card delete failed. Please try again"),
+                ),
+                actions: [
+                  TextButton(
+                      child:
+                          Text("Cancel", style: TextStyle(color: Colors.red)),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
+                  TextButton(
+                      child:
+                          Text("Retry", style: TextStyle(color: Colors.blue)),
+                      onPressed: () {
+                        _deleteProduct(index);
+                      })
+                ],
+              );
+            });
+      }
+    });
+  }
 
   void _loadcart() {
     http.post(

@@ -136,7 +136,7 @@ class _CandiesScreenState extends State<CandiesScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                    width: screenWidth / 1.4,
+                    width: screenWidth / 1.2,
                     height: 40,
                     child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -227,10 +227,7 @@ class _CandiesScreenState extends State<CandiesScreen> {
                       ? Icon(Icons.format_list_bulleted_sharp)
                       : Icon(Icons.grid_view),
                 ),
-                IconButton(
-                  icon: Icon(Icons.filter_alt_outlined),
-                  onPressed: () {},
-                )
+              
               ],
             ),
             Container(
@@ -256,7 +253,7 @@ class _CandiesScreenState extends State<CandiesScreen> {
                             child: GridView.count(
                                 crossAxisCount: _screenRatio,
                                 childAspectRatio:
-                                    (screenWidth / screenHeight) / 0.65, //0.61,
+                                    (screenWidth / screenHeight) / 0.65,
                                 children:
                                     List.generate(_candyList.length, (index) {
                                   return Padding(

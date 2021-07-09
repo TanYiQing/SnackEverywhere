@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snackeverywhere/Data/advanced_tile.dart';
 import 'package:snackeverywhere/Screen/Setting/HelpCentre/contactusScreen.dart';
-import 'package:snackeverywhere/Widget/bottombar.dart';
 import 'package:snackeverywhere/Widget/advanced_tile.dart';
 
 class FAQScreen extends StatefulWidget {
@@ -72,7 +71,6 @@ class _FAQScreenState extends State<FAQScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomBar(),
     );
   }
 
