@@ -3,7 +3,14 @@
 A new Flutter project.
 
 ## Youtube Presentation
+Part 1
 https://youtu.be/XIlQIdrUbiQ
+
+Part 2
+https://youtu.be/ulILEHzuZ0Q
+
+Part 3
+https://youtu.be/KjkMcDRfFww
 
 ## Getting Started
 
